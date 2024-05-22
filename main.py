@@ -2,9 +2,7 @@ def main():
     book_path = "books/frankenstein.txt"
     text = get_book_text(book_path)
     word_count = count_words(text)
-    letter_count = count_letters(text)
     print(f"{word_count} words found in the document.")
-    print(letter_count)
 
 
 def get_book_text(path):
@@ -16,19 +14,28 @@ def count_words(text):
     words = text.split()
     return len(words)
 
-def count_letters(text):
-    letter_dicts = []
-    letter_count = {}
-    text_lowered = text.lower()
-    text_filtered = "".join([char for char in text_lowered if char.isalpha()])
-    for letter in text_filtered:
-        if letter in letter_count:
-            letter_count[letter] += 1
+
+def sort_on(d):
+    return d["num"]
+
+
+def get_chars_dict(text):
+    chars = {}
+    for c in text:
+        lowered = c.lower()
+        if lowered in chars:
+            chars[lowered] += 1
         else:
-            letter_count[letter] = 1
-    for char, count in letter_count.items():
-        letter_dict = {char, count}
-        letter_dicts.append(letter_dict)
-    return letter_dicts
+            chars[lowered] = 1
+    return chars
+
+
+def chars_dict_to_sorted_list(num_chars_dict):
+    sorted_list = []
+    for ch in num_chars_dict:
+        sorted_list.append({"char":ch,"num":num_chars_dict[ch]})
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
+
 
 main()
