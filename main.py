@@ -17,13 +17,18 @@ def count_words(text):
     return len(words)
 
 def count_letters(text):
+    letter_dicts = []
     letter_count = {}
     text_lowered = text.lower()
-    for letter in text_lowered:
+    text_filtered = "".join([char for char in text_lowered if char.isalpha()])
+    for letter in text_filtered:
         if letter in letter_count:
             letter_count[letter] += 1
         else:
             letter_count[letter] = 1
-    return letter_count
+    for char, count in letter_count.items():
+        letter_dict = {char, count}
+        letter_dicts.append(letter_dict)
+    return letter_dicts
 
 main()
